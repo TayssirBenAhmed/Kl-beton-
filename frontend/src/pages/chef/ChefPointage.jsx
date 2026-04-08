@@ -21,7 +21,7 @@ const STATUS_CONFIG = (t) => ({
     MALADIE: { label:  'Maladie', icon: Heart,        color: '#7C3AED', bg: '#F5F3FF', border: '#DDD6FE' },
 });
 
-const BLOCK_HS = ['ABSENT', 'MALADIE'];
+const BLOCK_HS = ['ABSENT', 'MALADIE', 'CONGE'];
 
 function isMonthLocked(dateStr) {
     const today = new Date();
