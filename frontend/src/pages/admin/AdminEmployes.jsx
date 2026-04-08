@@ -25,6 +25,7 @@ export const AdminEmployes = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPoste, setFilterPoste] = useState('');
+  const [filterActif, setFilterActif] = useState('actif');
   const [viewMode, setViewMode] = useState('table');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingEmploye, setEditingEmploye] = useState(null);
@@ -83,7 +84,8 @@ export const AdminEmployes = () => {
   const filtered = enrichedEmployes.filter(e =>
     (`${e.nom} ${e.prenom}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (e.employee_id && e.employee_id.toLowerCase().includes(searchTerm.toLowerCase()))) &&
-    (!filterPoste || e.poste === filterPoste)
+    (!filterPoste || e.poste === filterPoste) &&
+    (filterActif === 'tous' || (filterActif === 'actif' ? e.actif : !e.actif))
   );
 
   const handleDelete = async (e, id) => {
@@ -133,6 +135,15 @@ export const AdminEmployes = () => {
             {postes.map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
+        <div className="flex rounded-lg overflow-hidden" style={{ border: '1px solid #E2E8F0' }}>
+          {[{ val: 'actif', label: 'Actifs', color: '#059669', bg: '#F0FDF4' }, { val: 'inactif', label: 'Inactifs', color: '#DC2626', bg: '#FEF2F2' }, { val: 'tous', label: 'Tous', color: '#475569', bg: '#F8FAFC' }].map(({ val, label, color, bg }) => (
+            <button key={val} onClick={() => setFilterActif(val)}
+              className="h-10 px-3 font-semibold transition-all"
+              style={{ fontSize: '12px', backgroundColor: filterActif === val ? bg : '#FFFFFF', color: filterActif === val ? color : '#94A3B8', borderRight: '1px solid #E2E8F0', borderLeft: 'none', borderTop: 'none', borderBottom: 'none' }}>
+              {label}
+            </button>
+          ))}
+        </div>
         <div className="flex rounded-lg p-0.5 gap-0.5" style={{ backgroundColor: '#F1F5F9' }}>
           <button onClick={() => setViewMode('table')}
             className="w-9 h-9 rounded-md flex items-center justify-center transition-all"
@@ -177,7 +188,15 @@ export const AdminEmployes = () => {
                         </div>
                         <div>
                           <p className="font-semibold" style={{ fontSize: '14px', color: '#1E293B' }}>{emp.nom} {emp.prenom}</p>
-                          <p style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>{emp.employee_id}</p>
+                          <div className="flex items-center gap-2">
+                            <p style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>{emp.employee_id}</p>
+                            <span style={{ fontSize: '10px', fontWeight: 700, padding: '1px 7px', borderRadius: 6,
+                              backgroundColor: emp.actif ? '#F0FDF4' : '#FEF2F2',
+                              color: emp.actif ? '#059669' : '#DC2626',
+                              border: `1px solid ${emp.actif ? '#BBF7D0' : '#FECACA'}` }}>
+                              {emp.actif ? 'Actif' : 'Inactif'}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -227,7 +246,15 @@ export const AdminEmployes = () => {
                   <span className="px-2 py-0.5 rounded-md" style={{ backgroundColor: '#F1F5F9', color: '#64748B', fontSize: '11px', fontWeight: 500 }}>{emp.poste}</span>
                 </div>
                 <h3 className="font-semibold mb-0.5" style={{ fontSize: '15px', color: '#1E293B' }}>{emp.nom} {emp.prenom}</h3>
-                <p style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500, marginBottom: 12 }}>{emp.employee_id}</p>
+                <div className="flex items-center gap-2 mb-3">
+                  <p style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500, margin: 0 }}>{emp.employee_id}</p>
+                  <span style={{ fontSize: '10px', fontWeight: 700, padding: '1px 7px', borderRadius: 6,
+                    backgroundColor: emp.actif ? '#F0FDF4' : '#FEF2F2',
+                    color: emp.actif ? '#059669' : '#DC2626',
+                    border: `1px solid ${emp.actif ? '#BBF7D0' : '#FECACA'}` }}>
+                    {emp.actif ? 'Actif' : 'Inactif'}
+                  </span>
+                </div>
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { label: 'Jours', val: emp.payroll.presence, color: '#1E293B' },
@@ -277,7 +304,12 @@ export const AdminEmployes = () => {
                       {selectedEmploye.prenom} <span style={{ color: '#1E40AF' }}>{selectedEmploye.nom}</span>
                     </h2>
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded-md" style={{ backgroundColor: '#F0FDF4', color: '#059669', fontSize: '11px', fontWeight: 600, border: '1px solid #BBF7D0' }}>Actif</span>
+                      <span className="px-2 py-0.5 rounded-md" style={{ fontSize: '11px', fontWeight: 600,
+                        backgroundColor: selectedEmploye.actif ? '#F0FDF4' : '#FEF2F2',
+                        color: selectedEmploye.actif ? '#059669' : '#DC2626',
+                        border: `1px solid ${selectedEmploye.actif ? '#BBF7D0' : '#FECACA'}` }}>
+                        {selectedEmploye.actif ? 'Actif' : 'Inactif'}
+                      </span>
                       <span style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 500 }}>ID: {selectedEmploye.employee_id || '—'}</span>
                     </div>
                   </div>

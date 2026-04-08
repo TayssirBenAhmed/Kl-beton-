@@ -27,7 +27,7 @@ pub async fn get_all_employees(
     pool: tauri::State<'_, DbPool>,
 ) -> Result<Vec<EmployeResponse>, String> {
     let rows = sqlx::query_as::<_, Employe>(
-        "SELECT id, nom, prenom, poste, employee_id, salaire_base, solde_conges, solde_maladie, date_embauche, actif, prime_transport, prime_presence, irpp, css, cnss_matricule, created_at FROM Employe WHERE actif = 1 ORDER BY nom ASC"
+        "SELECT id, nom, prenom, poste, employee_id, salaire_base, solde_conges, solde_maladie, date_embauche, actif, prime_transport, prime_presence, irpp, css, cnss_matricule, created_at FROM Employe ORDER BY actif DESC, nom ASC"
     )
     .fetch_all(pool.inner())
     .await
