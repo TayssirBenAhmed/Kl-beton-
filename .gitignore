@@ -1,0 +1,53 @@
+# ── Node ─────────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── Environnement ─────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Build frontend ────────────────────────────────────────────────────────────
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# ── Rust / Tauri ─────────────────────────────────────────────────────────────
+backend/src-tauri/target/
+backend/src-tauri/WixTools/
+
+# ── Bases de données locales ─────────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+backend/data/
+backend/dev.db
+
+# ── Prisma generated ─────────────────────────────────────────────────────────
+backend/generated/
+
+# ── OS / éditeurs ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.sw?
+
+# ── Logs / fichiers temporaires Tauri ────────────────────────────────────────
+*.log
+logs/
+backend/src-tauri/error.txt
+backend/src-tauri/errors.txt
+backend/src-tauri/errors_utf8.txt
+backend/src-tauri/build_error.txt
+
+# ── Build frontend embarqué dans backend ─────────────────────────────────────
+backend/frontend/
+
+# ── Claude Code settings ──────────────────────────────────────────────────────
+.claude/

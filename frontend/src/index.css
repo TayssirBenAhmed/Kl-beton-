@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================================
+   KL BETON V4.0 — ULTRA-LISIBLE — SENIOR ACCESSIBLE
+   Fond blanc · Texte noir · Taille min 18px · Contrastes forts
+   ================================================================ */
+
+:root {
+  --kl-bg:        #FFFFFF;
+  --kl-bg-app:    #F1F5F9;
+  --kl-card:      #FFFFFF;
+  --kl-border:    #CBD5E1;
+  --kl-border-strong: #94A3B8;
+  --kl-text:      #000000;
+  --kl-text-sec:  #1E293B;
+  --kl-text-muted:#4B5563;
+  --kl-accent:    #2F81F7;
+  --kl-navy:      #0F172A;
+  --kl-success:   #16A34A;
+  --kl-danger:    #DC2626;
+  --transition: all 0.18s ease;
+}
+
+/* ── Base reset ──────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+}
+
+html {
+  font-size: 17px;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--kl-bg-app);
+  color: var(--kl-text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.font-grotesk {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* ── SENIOR LISIBILITÉ : forcer la taille minimum des petits textes ── */
+[class*="text-[8px]"]  { font-size: 15px !important; }
+[class*="text-[9px]"]  { font-size: 15px !important; }
+[class*="text-[10px]"] { font-size: 16px !important; }
+[class*="text-[11px]"] { font-size: 16px !important; }
+[class*="text-[12px]"] { font-size: 17px !important; }
+[class*="text-[13px]"] { font-size: 17px !important; }
+[class*="text-[14px]"] { font-size: 17px !important; }
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F1F5F9; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #2F81F7; }
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.main-content-admin {
+  margin-left: 300px;
+  min-height: 100vh;
+  background: #F1F5F9;
+}
+
+.main-content-chef {
+  min-height: calc(100vh - 80px);
+  background: #F1F5F9;
+}
+
+/* ── Classes UI héritées ────────────────────────────────────── */
+.text-admin-label {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #000000;
+}
+
+/* KPI géants — 72px */
+.text-admin-value,
+.kpi-giant {
+  font-size: 72px;
+  font-weight: 900;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  line-height: 1;
+  color: #2F81F7;
+}
+
+/* ── Sidebar — toujours bleu nuit ───────────────────────────── */
+.admin-sidebar {
+  background: var(--kl-navy) !important;
+  border-right: none;
+}
+
+/* ── Cards blanches avec bordures visibles ──────────────────── */
+.glass-card-white {
+  background: #FFFFFF;
+  border: 2px solid #E2E8F0;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  color: #000000;
+}
+
+.glass-panel {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+}
+
+/* ── Fond industriel → blanc en mode senior ─────────────────── */
+.industrial-bg {
+  background: #FFFFFF;
+}
+
+/* ── Animations ──────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeIn 0.35s ease-out forwards; }
+
+/* ── Selection ───────────────────────────────────────────────── */
+::selection { background: #2F81F7; color: #FFFFFF; }
+
+/* ── Interactive ─────────────────────────────────────────────── */
+input, button, a { cursor: pointer; }
+input { cursor: text; }
+
+/* ── No Scrollbar ────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ════════════════════════════════════════════════════════════════
+   DARK MODE — KL BETON V4
+   Activé quand <html class="dark"> est présent (ThemeContext)
+   ════════════════════════════════════════════════════════════════ */
+
+html.dark {
+  --kl-bg:            #0F172A;
+  --kl-bg-app:        #0F172A;
+  --kl-card:          #1E293B;
+  --kl-border:        #334155;
+  --kl-border-strong: #475569;
+  --kl-text:          #F1F5F9;
+  --kl-text-sec:      #CBD5E1;
+  --kl-text-muted:    #94A3B8;
+}
+
+/* ── Fond global ─────────────────────────────────────────────── */
+html.dark body {
+  background: #0F172A !important;
+  color: #F1F5F9 !important;
+}
+
+/* ── Layouts structurels ─────────────────────────────────────── */
+html.dark .industrial-bg,
+html.dark .main-content-admin,
+html.dark .main-content-chef,
+html.dark main.theme-content {
+  background: #0F172A !important;
+}
+
+/* ── Wrappers de page (div p-6 / p-8 avec style inline) ─────── */
+html.dark .p-6[style],
+html.dark .p-8[style],
+html.dark [class*="p-6"][style] {
+  background-color: #0F172A !important;
+}
+
+/* ── Cards CSS héritées ──────────────────────────────────────── */
+html.dark .glass-card-white,
+html.dark .glass-panel {
+  background:   #1E293B !important;
+  border-color: #334155 !important;
+  color:        #F1F5F9 !important;
+}
+
+/* ── Cards inline (rounded-xl / rounded-lg avec bg blanc) ────── */
+html.dark .rounded-xl[style*="background-color: rgb(255, 255, 255)"],
+html.dark .rounded-xl[style*="background-color: rgb(248, 250, 252)"],
+html.dark .rounded-xl[style*="background-color: rgb(252, 252, 252)"],
+html.dark .rounded-xl[style*="background-color: rgb(248, 249, 252)"],
+html.dark .rounded-lg[style*="background-color: rgb(255, 255, 255)"],
+html.dark .rounded-lg[style*="background-color: rgb(248, 250, 252)"] {
+  background-color: #1E293B !important;
+  border-color:     #334155 !important;
+}
+
+/* ── Lignes de tableau (AdminRapports recap table) ───────────── */
+html.dark table { color: #E2E8F0; }
+html.dark table td { border-color: #334155 !important; }
+html.dark table tr[style*="background-color: rgb(255, 255, 255)"],
+html.dark table tr[style*="background-color: rgb(248, 250, 252)"] {
+  background-color: #1E293B !important;
+}
+html.dark table tr[style*="background-color: rgb(240, 244, 248)"] {
+  background-color: #253555 !important;
+}
+
+/* ── Sidebar — toujours bleu nuit ───────────────────────────── */
+html.dark .admin-sidebar,
+html:not(.dark) .admin-sidebar { background: #0F172A !important; }
+
+/* ── Scrollbar dark ─────────────────────────────────────────── */
+html.dark ::-webkit-scrollbar-track { background: #1E293B; }
+html.dark ::-webkit-scrollbar-thumb { background: #475569; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: #2F81F7; }
+
+/* ── Inputs & selects ───────────────────────────────────────── */
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark select,
+html.dark textarea {
+  background-color: #1E293B !important;
+  color:            #F1F5F9 !important;
+  border-color:     #334155 !important;
+}
+
+/* ── Modals / overlays flottants ────────────────────────────── */
+html.dark .rounded-xl[style*="background-color: rgb(255, 255, 255)"][style*="box-shadow"],
+html.dark .rounded-2xl[style*="background-color: rgb(255, 255, 255)"] {
+  background-color: #1E293B !important;
+  border-color:     #334155 !important;
+}
+
+/* ── Light mode (défaut) ────────────────────────────────────── */
+html:not(.dark) body { background: #F1F5F9; color: #000000; }

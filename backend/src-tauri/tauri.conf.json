@@ -1,0 +1,51 @@
+{
+  "build": {
+    "beforeDevCommand": "cd ../frontend && npx vite",
+    "beforeBuildCommand": "cd ../frontend && npx vite build",
+    "devPath": "http://localhost:5173",
+    "distDir": "../frontend/dist",
+    "withGlobalTauri": false
+  },
+  "package": {
+    "productName": "KL Beton Construction V4",
+    "version": "4.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "all": false,
+        "createDir": true,
+        "exists": true
+      }
+    },
+    "bundle": {
+      "active": false,
+      "identifier": "com.klbeton.v4",
+      "icon": []
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "KL BÉTON - GESTION DE POINTAGE INTELLIGENT",
+        "width": 1440,
+        "height": 960,
+        "minWidth": 1280,
+        "minHeight": 800,
+        "center": true,
+        "decorations": true
+      }
+    ]
+  }
+}

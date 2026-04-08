@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("EMPLOYE") // ADMIN, CHEF, EMPLOYE
+  createdAt DateTime @default(now())
+
+  messagesSent     Message[] @relation("Sender")
+  messagesReceived Message[] @relation("Receiver")
+}
+
+model Employe {
+  id          String   @id @default(cuid())
+  nom         String
+  prenom      String
+  poste       String
+  employeeId  String   @unique
+  salaireBase Float
+  soldeConges Float    @default(18)
+  soldeMaladie Float   @default(10)
+  dateEmbauche DateTime @default(now())
+  actif       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  pointages Pointage[]
+  avances   Avance[]
+}
+
+model Pointage {
+  id            String   @id @default(cuid())
+  date          DateTime
+  statut        String   @default("PRESENT") // PRESENT, ABSENT, CONGE, MALADIE, FERIE
+  heuresSupp    Float    @default(0)
+  joursTravailles Float  @default(1)
+  avance        Float    @default(0)
+  note          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  employeId String
+  employe   Employe @relation(fields: [employeId], references: [id], onDelete: Cascade)
+
+  @@unique([employeId, date])
+}
+
+model Avance {
+  id        String   @id @default(cuid())
+  montant   Float
+  date      DateTime @default(now())
+  statut    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt DateTime @default(now())
+
+  employeId String
+  employe   Employe @relation(fields: [employeId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  senderId   String
+  sender     User @relation("Sender", fields: [senderId], references: [id])
+  receiverId String
+  receiver   User @relation("Receiver", fields: [receiverId], references: [id])
+}

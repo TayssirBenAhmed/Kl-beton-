@@ -1,0 +1,7 @@
+# Ignore SQLite database files — prevents cargo-watch from restarting the
+# app every time the database is written to.
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+data/
