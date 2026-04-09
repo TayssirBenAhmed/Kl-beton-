@@ -34,15 +34,18 @@ export const AdminEmployes = () => {
   const [pretForm, setPretForm] = useState({ montant_total: '', mensualite: '' });
   const [pretLoading, setPretLoading] = useState(false);
 
-  const [currentMonth] = useState(new Date().getMonth() + 1);
-  const [currentYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     fetchEmployes();
-    fetchByMonth(currentMonth, currentYear);
     fetchAvances();
     fetchPrets();
-  }, [fetchEmployes, fetchByMonth, fetchAvances, fetchPrets, currentMonth, currentYear]);
+  }, [fetchEmployes, fetchAvances, fetchPrets]);
+
+  useEffect(() => {
+    fetchByMonth(selectedMonth, selectedYear);
+  }, [fetchByMonth, selectedMonth, selectedYear]);
 
   const pretActifForSelected = selectedEmploye
     ? prets.find(pr => pr.employe_id === selectedEmploye.id && pr.statut === 'ACTIF') || null
@@ -71,9 +74,9 @@ export const AdminEmployes = () => {
 
   const enrichedEmployes = useMemo(() => {
     return employes.map(emp => {
-      const empPointages = pointagesMois.filter(p => Number(p.employe_id) === Number(emp.id));
-      const empAvances   = avances.filter(a => Number(a.employe_id) === Number(emp.id) && a.statut === 'APPROVED');
-      const pretActif    = prets.find(pr => Number(pr.employe_id) === Number(emp.id) && pr.statut === 'ACTIF') || null;
+      const empPointages = pointagesMois.filter(p => String(p.employe_id) === String(emp.id));
+      const empAvances   = avances.filter(a => String(a.employe_id) === String(emp.id) && a.statut === 'APPROVED');
+      const pretActif    = prets.find(pr => String(pr.employe_id) === String(emp.id) && pr.statut === 'ACTIF') || null;
       const payroll      = payrollCalculator.calculateMonthly(emp, empPointages, empAvances, false, pretActif);
       return { ...emp, payroll };
     });
@@ -110,11 +113,26 @@ export const AdminEmployes = () => {
             {t('employees') || 'Collaborateurs'}
           </h1>
         </div>
-        <button onClick={() => setIsAddModalOpen(true)}
+        <div className="flex items-center gap-3">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '0 14px', height: 44, backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 10 }}>
+            <Calendar size={15} style={{ color: '#1E40AF' }} />
+            <select value={selectedMonth} onChange={e => setSelectedMonth(Number(e.target.value))}
+              style={{ background: 'transparent', border: 'none', outline: 'none', fontSize: '13px', fontWeight: 600, color: '#1E293B', cursor: 'pointer' }}>
+              {['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'].map((m, i) => (
+                <option key={i} value={i + 1}>{m}</option>
+              ))}
+            </select>
+            <select value={selectedYear} onChange={e => setSelectedYear(Number(e.target.value))}
+              style={{ background: 'transparent', border: 'none', outline: 'none', fontSize: '13px', fontWeight: 600, color: '#1E293B', cursor: 'pointer' }}>
+              {[2023, 2024, 2025, 2026].map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+          </div>
+          <button onClick={() => setIsAddModalOpen(true)}
           className="h-11 px-6 rounded-xl font-semibold flex items-center gap-2 transition-all active:scale-[0.98]"
           style={{ backgroundColor: '#1E40AF', color: '#FFFFFF', fontSize: '14px', boxShadow: '0 2px 8px rgba(30,64,175,0.2)' }}>
           <UserPlus size={18} /> {isRTL ? 'إضافة موظف' : 'Nouveau collaborateur'}
         </button>
+        </div>
       </div>
 
       {/* SEARCH BAR */}
